@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>theme builder</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #1c1c1c;
+    --bg2: #252525;
+    --surface: #2e2e2e;
+    --border: #3a3a3a;
+    --fg: #d4d4d4;
+    --fg2: #888;
+    --fg3: #555;
+    --accent: #7e9cd8;
+    --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    --font-sans: system-ui, -apple-system, sans-serif;
+  }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-mono); font-size: 13px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+  header { display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-bottom: 1px solid var(--border); background: var(--bg2); flex-shrink: 0; }
+  header h1 { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.04em; }
+  .presets { display: flex; gap: 5px; flex-wrap: wrap; }
+  .preset-btn { font-size: 11px; padding: 3px 8px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: none; color: var(--fg2); font-family: var(--font-mono); transition: all 0.1s; }
+  .preset-btn:hover { background: var(--surface); color: var(--fg); border-color: var(--fg3); }
+  .spacer { flex: 1; }
+  .main { display: grid; grid-template-columns: 260px 1fr; flex: 1; overflow: hidden; }
+  .sidebar { border-right: 1px solid var(--border); overflow-y: auto; padding: 10px 0; }
+  .sidebar::-webkit-scrollbar { width: 4px; } .sidebar::-webkit-scrollbar-track { background: transparent; } .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .section-label { font-size: 10px; color: var(--fg3); text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 12px 4px; }
+  .color-row { display: flex; align-items: center; gap: 8px; padding: 3px 12px; transition: background 0.1s; }
+  .color-row:hover { background: var(--surface); }
+  .color-row label { font-size: 11px; color: var(--fg2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  .color-row:hover label { color: var(--fg); }
+  .color-swatch { width: 20px; height: 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; flex-shrink: 0; position: relative; }
+  .color-swatch input[type=color] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; border: none; padding: 0; }
+  .hex-val { font-size: 11px; color: var(--fg3); width: 58px; font-family: var(--font-mono); }
+  .preview { display: flex; flex-direction: column; overflow: hidden; }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg2); flex-shrink: 0; }
+  .tab { font-size: 12px; padding: 7px 16px; cursor: pointer; color: var(--fg2); border-bottom: 2px solid transparent; font-family: var(--font-mono); transition: color 0.1s; user-select: none; }
+  .tab:hover { color: var(--fg); }
+  .tab.active { color: var(--fg); border-bottom-color: var(--accent); }
+  .tab-content { display: none; flex: 1; overflow: auto; padding: 16px; }
+  .tab-content.active { display: flex; flex-direction: column; gap: 12px; }
+  .code-wrap { border-radius: 6px; padding: 18px; font-size: 13px; line-height: 1.75; overflow-x: auto; border: 1px solid rgba(255,255,255,0.06); }
+  .bar-wrap { border-radius: 6px; padding: 8px 14px; font-size: 12px; display: flex; gap: 18px; align-items: center; border: 1px solid rgba(255,255,255,0.06); }
+  .wm-wrap { border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  .wm-bar { display: flex; align-items: center; gap: 0; padding: 5px 10px; font-size: 12px; }
+  .wm-ws { padding: 2px 10px; border-radius: 3px; margin-right: 4px; font-size: 11px; cursor: default; }
+  .wm-title { flex: 1; text-align: center; }
+  .wm-term { padding: 16px; font-size: 13px; line-height: 1.7; min-height: 100px; }
+  .export-area { font-size: 11px; font-family: var(--font-mono); background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 12px; white-space: pre; overflow: auto; flex: 1; min-height: 200px; color: var(--fg2); line-height: 1.6; }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .action-btn { font-size: 11px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: none; color: var(--fg2); font-family: var(--font-mono); transition: all 0.1s; }
+  .action-btn:hover { background: var(--surface); color: var(--fg); border-color: var(--fg3); }
+  .action-btn.primary { border-color: var(--accent); color: var(--accent); }
+  .action-btn.primary:hover { background: rgba(126,156,216,0.1); }
+  .hue-row { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .hue-row label { font-size: 11px; color: var(--fg3); white-space: nowrap; }
+  .hue-row input[type=range] { flex: 1; accent-color: var(--accent); }
+  .hue-val { font-size: 11px; color: var(--fg2); width: 32px; }
+  .copy-toast { position: fixed; bottom: 20px; right: 20px; background: var(--surface); border: 1px solid var(--border); color: var(--fg); font-size: 12px; padding: 8px 14px; border-radius: 6px; font-family: var(--font-mono); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+  .copy-toast.show { opacity: 1; }
+  .saved-section { border-top: 1px solid var(--border); padding: 8px 12px; flex-shrink: 0; }
+  .saved-label { font-size: 10px; color: var(--fg3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .saved-list { display: flex; flex-direction: column; gap: 3px; max-height: 140px; overflow-y: auto; }
+  .saved-list::-webkit-scrollbar { width: 3px; } .saved-list::-webkit-scrollbar-thumb { background: var(--border); }
+  .saved-item { display: flex; align-items: center; gap: 6px; padding: 3px 4px; border-radius: 3px; transition: background 0.1s; }
+  .saved-item:hover { background: var(--surface); }
+  .saved-item-swatches { display: flex; gap: 2px; flex-shrink: 0; }
+  .saved-item-swatches span { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .saved-item-name { font-size: 11px; color: var(--fg2); flex: 1; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .saved-item-name:hover { color: var(--fg); }
+  .saved-item-del { font-size: 11px; color: var(--fg3); cursor: pointer; padding: 0 2px; flex-shrink: 0; }
+  .saved-item-del:hover { color: var(--urgent-color, #e06c75); }
+  .save-row { display: flex; gap: 6px; margin-top: 6px; }
+  .save-input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--fg); font-family: var(--font-mono); font-size: 11px; padding: 4px 8px; outline: none; }
+  .save-input:focus { border-color: var(--fg3); }
+  .save-input::placeholder { color: var(--fg3); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>theme builder</h1>
+  <div class="presets" id="presets"></div>
+  <div class="spacer"></div>
+  <button class="action-btn primary" onclick="copyAll()">copy all</button>
+</header>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="section-label">base</div>
+    <div id="base-slots"></div>
+    <div class="section-label">syntax</div>
+    <div id="syntax-slots"></div>
+    <div class="section-label">ui / wm</div>
+    <div id="ui-slots"></div>
+    <div class="hue-row">
+      <label>hue shift syntax</label>
+      <input type="range" min="0" max="360" value="0" id="hue-shift">
+      <span class="hue-val" id="hue-val">0°</span>
+    </div>
+    <div class="saved-section">
+      <div class="saved-label">saved themes</div>
+      <div class="saved-list" id="saved-list"></div>
+      <div class="save-row">
+        <input class="save-input" id="save-name" placeholder="theme name…" maxlength="40">
+        <button class="action-btn primary" onclick="saveTheme()">save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview">
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-tab="code">code (C)</div>
+      <div class="tab" data-tab="bar">statusbar</div>
+      <div class="tab" data-tab="wm">WM bar</div>
+      <div class="tab" data-tab="export">export</div>
+    </div>
+
+    <div class="tab-content active" id="tab-code">
+      <div class="code-wrap" id="code-preview"></div>
+    </div>
+
+    <div class="tab-content" id="tab-bar">
+      <div class="bar-wrap" id="bar-preview">
+        <span id="bp-time">12:34</span>
+        <span id="bp-ws">1: term</span>
+        <span id="bp-bat">bat 87%</span>
+        <span id="bp-net">eth0 ↑↓</span>
+        <span id="bp-cpu">cpu 14%</span>
+      </div>
+      <p style="font-size:11px;color:var(--fg3);">preview of a typical i3status / swaybar line</p>
+    </div>
+
+    <div class="tab-content" id="tab-wm">
+      <div class="wm-wrap" id="wm-preview">
+        <div class="wm-bar" id="wm-bar">
+          <div class="wm-ws" id="wm-ws1">1</div>
+          <div class="wm-ws" id="wm-ws2">2</div>
+          <div class="wm-ws" id="wm-ws3">3</div>
+          <div class="wm-title" id="wm-title">alacritty</div>
+          <div id="wm-time">12:34</div>
+        </div>
+        <div class="wm-term" id="wm-term"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-export">
+      <div class="btn-row">
+        <button class="action-btn" onclick="showExport('alacritty')">alacritty</button>
+        <button class="action-btn" onclick="showExport('sway')">sway / i3</button>
+        <button class="action-btn" onclick="showExport('emacs')">emacs faces</button>
+        <button class="action-btn" onclick="showExport('vim')">vim / nvim</button>
+        <button class="action-btn" onclick="showExport('css')">css vars</button>
+        <button class="action-btn" onclick="showExport('json')">json</button>
+        <button class="action-btn primary" onclick="copyExport()">copy</button>
+      </div>
+      <div class="export-area" id="export-area">← pick a format</div>
+    </div>
+  </div>
+</div>
+
+<div class="copy-toast" id="toast">copied!</div>
+
+<script>
+const SLOTS = {
+  base: [
+    { key: 'bg',      label: 'background' },
+    { key: 'bg2',     label: 'background alt' },
+    { key: 'fg',      label: 'foreground' },
+    { key: 'fg2',     label: 'foreground muted' },
+    { key: 'select',  label: 'selection' },
+    { key: 'cursor',  label: 'cursor' },
+    { key: 'line',    label: 'current line' },
+    { key: 'border',  label: 'border / gutter' },
+  ],
+  syntax: [
+    { key: 'kw',      label: 'keyword (if, for…)' },
+    { key: 'type',    label: 'type / class' },
+    { key: 'fn',      label: 'function name' },
+    { key: 'str',     label: 'string' },
+    { key: 'num',     label: 'number / const' },
+    { key: 'op',      label: 'operator' },
+    { key: 'comment', label: 'comment' },
+    { key: 'macro',   label: 'macro / preprocessor' },
+    { key: 'var',     label: 'variable' },
+    { key: 'special', label: 'special / escape' },
+  ],
+  ui: [
+    { key: 'accent',    label: 'accent / focused' },
+    { key: 'urgent',    label: 'urgent / error' },
+    { key: 'inactive',  label: 'inactive window' },
+    { key: 'bar_bg',    label: 'bar background' },
+    { key: 'bar_fg',    label: 'bar foreground' },
+    { key: 'ws_active', label: 'workspace active' },
+    { key: 'ws_bg',     label: 'workspace inactive' },
+  ]
+};
+
+const PRESETS = {
+  gruvbox:    { bg:'#282828',bg2:'#3c3836',fg:'#ebdbb2',fg2:'#a89984',select:'#504945',cursor:'#ebdbb2',line:'#32302f',border:'#504945',kw:'#fb4934',type:'#fabd2f',fn:'#b8bb26',str:'#b8bb26',num:'#d3869b',op:'#fe8019',comment:'#928374',macro:'#8ec07c',var:'#83a598',special:'#8ec07c',accent:'#fabd2f',urgent:'#fb4934',inactive:'#3c3836',bar_bg:'#1d2021',bar_fg:'#ebdbb2',ws_active:'#fabd2f',ws_bg:'#504945' },
+  catppuccin: { bg:'#1e1e2e',bg2:'#313244',fg:'#cdd6f4',fg2:'#6c7086',select:'#585b70',cursor:'#f5e0dc',line:'#313244',border:'#45475a',kw:'#cba6f7',type:'#89b4fa',fn:'#89dceb',str:'#a6e3a1',num:'#fab387',op:'#89dceb',comment:'#6c7086',macro:'#cba6f7',var:'#cdd6f4',special:'#f38ba8',accent:'#89b4fa',urgent:'#f38ba8',inactive:'#313244',bar_bg:'#181825',bar_fg:'#cdd6f4',ws_active:'#cba6f7',ws_bg:'#45475a' },
+  nord:       { bg:'#2e3440',bg2:'#3b4252',fg:'#d8dee9',fg2:'#616e88',select:'#434c5e',cursor:'#d8dee9',line:'#3b4252',border:'#4c566a',kw:'#81a1c1',type:'#8fbcbb',fn:'#88c0d0',str:'#a3be8c',num:'#b48ead',op:'#81a1c1',comment:'#616e88',macro:'#5e81ac',var:'#d8dee9',special:'#ebcb8b',accent:'#88c0d0',urgent:'#bf616a',inactive:'#3b4252',bar_bg:'#2e3440',bar_fg:'#d8dee9',ws_active:'#88c0d0',ws_bg:'#4c566a' },
+  'rose-pine':{ bg:'#191724',bg2:'#1f1d2e',fg:'#e0def4',fg2:'#6e6a86',select:'#403d52',cursor:'#e0def4',line:'#1f1d2e',border:'#403d52',kw:'#c4a7e7',type:'#9ccfd8',fn:'#31748f',str:'#f6c177',num:'#ebbcba',op:'#908caa',comment:'#6e6a86',macro:'#c4a7e7',var:'#e0def4',special:'#eb6f92',accent:'#31748f',urgent:'#eb6f92',inactive:'#1f1d2e',bar_bg:'#191724',bar_fg:'#e0def4',ws_active:'#c4a7e7',ws_bg:'#403d52' },
+  kanagawa:   { bg:'#1f1f28',bg2:'#2a2a37',fg:'#dcd7ba',fg2:'#727169',select:'#2d4f67',cursor:'#c8c093',line:'#2a2a37',border:'#54546d',kw:'#957fb8',type:'#7e9cd8',fn:'#7aa89f',str:'#98bb6c',num:'#d27e99',op:'#c0a36e',comment:'#727169',macro:'#ff5d62',var:'#dcd7ba',special:'#ffa066',accent:'#7e9cd8',urgent:'#c34043',inactive:'#2a2a37',bar_bg:'#16161d',bar_fg:'#dcd7ba',ws_active:'#7e9cd8',ws_bg:'#54546d' },
+  'one-dark':  { bg:'#282c34',bg2:'#2c313a',fg:'#abb2bf',fg2:'#5c6370',select:'#3e4451',cursor:'#528bff',line:'#2c313a',border:'#3e4451',kw:'#c678dd',type:'#e5c07b',fn:'#61afef',str:'#98c379',num:'#d19a66',op:'#56b6c2',comment:'#5c6370',macro:'#e06c75',var:'#e06c75',special:'#56b6c2',accent:'#61afef',urgent:'#e06c75',inactive:'#2c313a',bar_bg:'#21252b',bar_fg:'#abb2bf',ws_active:'#61afef',ws_bg:'#3e4451' },
+  'tokyo-night':{ bg:'#1a1b26',bg2:'#24283b',fg:'#c0caf5',fg2:'#565f89',select:'#2e3c64',cursor:'#c0caf5',line:'#24283b',border:'#292e42',kw:'#bb9af7',type:'#7dcfff',fn:'#7aa2f7',str:'#9ece6a',num:'#ff9e64',op:'#89ddff',comment:'#565f89',macro:'#bb9af7',var:'#c0caf5',special:'#73daca',accent:'#7aa2f7',urgent:'#f7768e',inactive:'#24283b',bar_bg:'#15161e',bar_fg:'#c0caf5',ws_active:'#7aa2f7',ws_bg:'#292e42' },
+  'mono':       { bg:'#0a0a0a',bg2:'#141414',fg:'#e8e8e8',fg2:'#666666',select:'#2a2a2a',cursor:'#e8e8e8',line:'#181818',border:'#2e2e2e',kw:'#ffffff',type:'#cccccc',fn:'#e0e0e0',str:'#aaaaaa',num:'#999999',op:'#bbbbbb',comment:'#444444',macro:'#dddddd',var:'#d0d0d0',special:'#888888',accent:'#ffffff',urgent:'#cc3333',inactive:'#1c1c1c',bar_bg:'#050505',bar_fg:'#cccccc',ws_active:'#e8e8e8',ws_bg:'#2a2a2a' },
+};
+
+// ── Saved themes (localStorage) ──────────────────────────────────────────────
+const STORAGE_KEY = 'theme-builder-saved';
+
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+function writeSaved(obj) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+}
+function saveTheme() {
+  const inp = document.getElementById('save-name');
+  const name = inp.value.trim();
+  if (!name) { inp.focus(); return; }
+  const saved = loadSaved();
+  saved[name] = { colors: JSON.parse(JSON.stringify(colors)), hueShift };
+  writeSaved(saved);
+  inp.value = '';
+  renderSavedList();
+  toast(`saved "${name}"`);
+}
+function loadSavedTheme(name) {
+  const saved = loadSaved();
+  if (!saved[name]) return;
+  colors = JSON.parse(JSON.stringify(saved[name].colors));
+  hueShift = saved[name].hueShift || 0;
+  document.getElementById('hue-shift').value = hueShift;
+  document.getElementById('hue-val').textContent = hueShift + '°';
+  syncSidebar();
+  renderAll();
+  if (lastFmt) showExport(lastFmt);
+  toast(`loaded "${name}"`);
+}
+function deleteSavedTheme(name) {
+  const saved = loadSaved();
+  delete saved[name];
+  writeSaved(saved);
+  renderSavedList();
+}
+function renderSavedList() {
+  const list = document.getElementById('saved-list');
+  const saved = loadSaved();
+  const names = Object.keys(saved);
+  if (!names.length) {
+    list.innerHTML = '<span style="font-size:11px;color:var(--fg3);padding:2px 0;">none yet</span>';
+    return;
+  }
+  list.innerHTML = '';
+  names.forEach(name => {
+    const theme = saved[name].colors;
+    const item = document.createElement('div');
+    item.className = 'saved-item';
+    const swatches = ['bg','fn','kw','str','comment'].map(k =>
+      `<span style="background:${theme[k]||'#000'}" title="${k}"></span>`).join('');
+    item.innerHTML = `
+      <div class="saved-item-swatches">${swatches}</div>
+      <span class="saved-item-name" title="${name}">${name}</span>
+      <span class="saved-item-del" title="delete">✕</span>`;
+    item.querySelector('.saved-item-name').onclick = () => loadSavedTheme(name);
+    item.querySelector('.saved-item-del').onclick = () => deleteSavedTheme(name);
+    list.appendChild(item);
+  });
+}
+
+// enter key saves
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('save-name').addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveTheme();
+  });
+});
+
+let colors = JSON.parse(JSON.stringify(PRESETS['gruvbox']));
+let hueShift = 0;
+const syntaxKeys = SLOTS.syntax.map(s => s.key);
+
+function hexToHsl(hex) {
+  let r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+  let max = Math.max(r,g,b), min = Math.min(r,g,b), h, s, l = (max+min)/2;
+  if (max===min) { h=s=0; } else {
+    let d = max-min; s = l>0.5 ? d/(2-max-min) : d/(max+min);
+    switch(max) { case r: h=(g-b)/d+(g<b?6:0); break; case g: h=(b-r)/d+2; break; case b: h=(r-g)/d+4; break; } h/=6;
+  }
+  return [h*360, s*100, l*100];
+}
+function hslToHex(h,s,l) {
+  h/=360; s/=100; l/=100;
+  let r,g,b;
+  if (s===0) { r=g=b=l; } else {
+    const q=l<0.5?l*(1+s):l+s-l*s, p=2*l-q;
+    const hue2rgb=(p,q,t)=>{ if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; };
+    r=hue2rgb(p,q,h+1/3); g=hue2rgb(p,q,h); b=hue2rgb(p,q,h-1/3);
+  }
+  return '#'+[r,g,b].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('');
+}
+function shiftHue(hex, deg) {
+  if (!hex||hex.length<7) return hex;
+  let [h,s,l] = hexToHsl(hex);
+  return hslToHex((h+deg+360)%360, s, l);
+}
+function getColor(key) {
+  if (syntaxKeys.includes(key) && hueShift!==0) return shiftHue(colors[key], hueShift);
+  return colors[key];
+}
+
+function sp(text, color, opts={}) {
+  let style = `color:${color};`;
+  if (opts.bold) style += 'font-weight:600;';
+  if (opts.italic) style += 'font-style:italic;';
+  return `<span style="${style}">${text}</span>`;
+}
+
+function renderCode() {
+  const c = key => getColor(key);
+  const lines = [
+    sp('#include &lt;stdio.h&gt;', c('macro')) + '  ' + sp('/* standard i/o */', c('comment'), {italic:true}),
+    sp('#include &lt;stdlib.h&gt;', c('macro')),
+    '',
+    sp('typedef', c('kw')) + ' ' + sp('struct', c('kw')) + ' {',
+    '    ' + sp('int', c('type')) + ' ' + sp('len', c('var')) + ';',
+    '    ' + sp('char', c('type')) + ' ' + sp('data', c('var')) + sp('[]', c('op')) + ';',
+    sp('} ', c('fg')) + sp('Buf', c('type')) + ';',
+    '',
+    sp('Buf', c('type')) + sp(' *', c('op')) + sp('buf_new', c('fn')) + sp('(', c('fg')) + sp('size_t', c('type')) + ' ' + sp('n', c('var')) + sp(') {', c('fg')),
+    '    ' + sp('Buf', c('type')) + sp(' *b = malloc(sizeof(', c('fg')) + sp('Buf', c('type')) + sp(') + n);', c('fg')),
+    '    ' + sp('if', c('kw')) + sp(' (!b) ', c('fg')) + sp('return', c('kw')) + sp(' NULL;', c('num')),
+    '    ' + sp('b', c('var')) + sp('->', c('op')) + sp('len', c('var')) + sp(' = ', c('op')) + sp('n', c('var')) + ';',
+    '    ' + sp('return', c('kw')) + ' ' + sp('b', c('var')) + ';',
+    '}',
+    '',
+    sp('int', c('type')) + ' ' + sp('main', c('fn')) + sp('(', c('fg')) + sp('void', c('type')) + sp(') {', c('fg')),
+    '    ' + sp('Buf', c('type')) + sp(' *b = ', c('fg')) + sp('buf_new', c('fn')) + sp('(', c('fg')) + sp('64', c('num')) + sp(');', c('fg')),
+    '    ' + sp('printf', c('fn')) + sp('(', c('fg')) + sp('"len=%d\\n"', c('str')) + sp(', b->', c('fg')) + sp('len', c('var')) + sp(');', c('fg')),
+    '    ' + sp('free', c('fn')) + sp('(b);', c('fg')),
+    '    ' + sp('return', c('kw')) + ' ' + sp('0', c('num')) + ';',
+    '}',
+  ];
+  const el = document.getElementById('code-preview');
+  el.style.background = c('bg');
+  el.style.color = c('fg');
+  el.innerHTML = lines.map((l, i) => {
+    const hl = i === 17;
+    return `<div style="background:${hl ? c('line') : 'transparent'};padding:0 6px;margin:0 -6px">${l||'&nbsp;'}</div>`;
+  }).join('');
+}
+
+function renderBar() {
+  const el = document.getElementById('bar-preview');
+  el.style.background = getColor('bar_bg');
+  el.style.color = getColor('bar_fg');
+  document.getElementById('bp-time').style.color = getColor('accent');
+  document.getElementById('bp-ws').style.color = getColor('ws_active');
+  ['bp-bat','bp-net','bp-cpu'].forEach(id => document.getElementById(id).style.color = getColor('fg2'));
+}
+
+function renderWM() {
+  const bar = document.getElementById('wm-bar');
+  bar.style.background = getColor('bar_bg');
+  bar.style.color = getColor('bar_fg');
+  document.getElementById('wm-title').style.color = getColor('fg2');
+  document.getElementById('wm-time').style.color = getColor('accent');
+  const ws1 = document.getElementById('wm-ws1');
+  ws1.style.background = getColor('ws_active');
+  ws1.style.color = getColor('bar_bg');
+  [document.getElementById('wm-ws2'), document.getElementById('wm-ws3')].forEach(el => {
+    el.style.background = getColor('ws_bg');
+    el.style.color = getColor('bar_fg');
+  });
+  const term = document.getElementById('wm-term');
+  term.style.background = getColor('bg');
+  term.style.color = getColor('fg');
+  term.innerHTML = [
+    sp('$ ', getColor('fn')) + sp('cc', getColor('kw')) + ' -o prog main.c',
+    sp('$ ', getColor('fn')) + sp('./prog', getColor('str')),
+    sp('len=64', getColor('num')),
+    sp('$ ', getColor('fn')) + '<span style="background:' + getColor('cursor') + ';color:' + getColor('bg') + '"> </span>',
+  ].join('<br>');
+}
+
+function renderAll() { renderCode(); renderBar(); renderWM(); }
+
+function syncSidebar() {
+  const allSlots = [...SLOTS.base, ...SLOTS.syntax, ...SLOTS.ui];
+  document.querySelectorAll('.color-row').forEach((row, i) => {
+    const key = allSlots[i]?.key;
+    if (!key) return;
+    const swatch = row.querySelector('.color-swatch');
+    const inp = row.querySelector('input[type=color]');
+    const hex = row.querySelector('.hex-val');
+    swatch.style.background = colors[key];
+    inp.value = colors[key];
+    hex.textContent = colors[key];
+  });
+}
+
+function buildSidebar() {
+  ['base','syntax','ui'].forEach(group => {
+    const el = document.getElementById(group + '-slots');
+    el.innerHTML = '';
+    SLOTS[group].forEach(slot => {
+      const row = document.createElement('div');
+      row.className = 'color-row';
+      row.innerHTML = `
+        <div class="color-swatch" style="background:${colors[slot.key]}">
+          <input type="color" value="${colors[slot.key]}">
+        </div>
+        <label>${slot.label}</label>
+        <span class="hex-val">${colors[slot.key]}</span>`;
+      const inp = row.querySelector('input[type=color]');
+      const swatch = row.querySelector('.color-swatch');
+      const hexSpan = row.querySelector('.hex-val');
+      inp.addEventListener('input', e => {
+        colors[slot.key] = e.target.value;
+        swatch.style.background = e.target.value;
+        hexSpan.textContent = e.target.value;
+        renderAll();
+      });
+      el.appendChild(row);
+    });
+  });
+}
+
+// Export formats
+function buildExport(fmt) {
+  const c = key => getColor(key);
+  if (fmt === 'alacritty') return `[colors.primary]
+background = '${c('bg')}'
+foreground = '${c('fg')}'
+
+[colors.cursor]
+text   = '${c('bg')}'
+cursor = '${c('cursor')}'
+
+[colors.selection]
+text       = '${c('fg')}'
+background = '${c('select')}'
+
+[colors.normal]
+black   = '${c('bg2')}'
+red     = '${c('urgent')}'
+green   = '${c('fn')}'
+yellow  = '${c('type')}'
+blue    = '${c('kw')}'
+magenta = '${c('macro')}'
+cyan    = '${c('str')}'
+white   = '${c('fg2')}'
+
+[colors.bright]
+black   = '${c('border')}'
+red     = '${c('urgent')}'
+green   = '${c('fn')}'
+yellow  = '${c('num')}'
+blue    = '${c('accent')}'
+magenta = '${c('special')}'
+cyan    = '${c('var')}'
+white   = '${c('fg')}'`;
+
+  if (fmt === 'sway') return `# sway / i3 window colors
+# class                  border           bg               text             indicator        child_border
+client.focused           ${c('accent')}   ${c('accent')}   ${c('bg')}       ${c('fn')}       ${c('accent')}
+client.focused_inactive  ${c('border')}   ${c('bg2')}      ${c('fg2')}      ${c('border')}   ${c('border')}
+client.unfocused         ${c('border')}   ${c('bg2')}      ${c('fg2')}      ${c('border')}   ${c('border')}
+client.urgent            ${c('urgent')}   ${c('urgent')}   ${c('fg')}       ${c('urgent')}   ${c('urgent')}
+
+bar {
+    colors {
+        background         ${c('bar_bg')}
+        statusline         ${c('bar_fg')}
+        separator          ${c('fg2')}
+        focused_workspace  ${c('ws_active')} ${c('ws_active')} ${c('bar_bg')}
+        active_workspace   ${c('ws_bg')}     ${c('ws_bg')}     ${c('bar_fg')}
+        inactive_workspace ${c('ws_bg')}     ${c('ws_bg')}     ${c('fg2')}
+        urgent_workspace   ${c('urgent')}    ${c('urgent')}    ${c('fg')}
+    }
+}`;
+
+  if (fmt === 'emacs') return `;; add to your theme or init.el
+(custom-theme-set-faces
+ 'user
+ '(default              ((t (:background "${c('bg')}"  :foreground "${c('fg')}"))))
+ '(cursor               ((t (:background "${c('cursor')}"))))
+ '(region               ((t (:background "${c('select')}"))))
+ '(hl-line              ((t (:background "${c('line')}"))))
+ '(fringe               ((t (:background "${c('bg2')}"))))
+ '(line-number          ((t (:foreground "${c('fg2')}"  :background "${c('bg2')}"))))
+ '(font-lock-keyword-face          ((t (:foreground "${c('kw')}"))))
+ '(font-lock-type-face             ((t (:foreground "${c('type')}"))))
+ '(font-lock-function-name-face    ((t (:foreground "${c('fn')}"))))
+ '(font-lock-string-face           ((t (:foreground "${c('str')}"))))
+ '(font-lock-constant-face         ((t (:foreground "${c('num')}"))))
+ '(font-lock-operator-face         ((t (:foreground "${c('op')}"))))
+ '(font-lock-comment-face          ((t (:foreground "${c('comment')}" :slant italic))))
+ '(font-lock-preprocessor-face     ((t (:foreground "${c('macro')}"))))
+ '(font-lock-variable-name-face    ((t (:foreground "${c('var')}"))))
+ '(font-lock-builtin-face          ((t (:foreground "${c('special')}"))))
+ '(show-paren-match     ((t (:background "${c('select')}" :foreground "${c('accent')}")))))`;
+
+  if (fmt === 'vim') return `" vim / neovim highlight groups
+" paste into your colorscheme file or init.vim
+
+hi Normal       guibg=${c('bg')}      guifg=${c('fg')}
+hi NormalNC     guibg=${c('bg2')}     guifg=${c('fg2')}
+hi CursorLine   guibg=${c('line')}
+hi Visual       guibg=${c('select')}
+hi LineNr       guifg=${c('fg2')}     guibg=${c('bg2')}
+hi SignColumn   guibg=${c('bg2')}
+hi VertSplit    guifg=${c('border')}
+
+hi Keyword      guifg=${c('kw')}
+hi Type         guifg=${c('type')}
+hi Function     guifg=${c('fn')}
+hi String       guifg=${c('str')}
+hi Number       guifg=${c('num')}
+hi Operator     guifg=${c('op')}
+hi Comment      guifg=${c('comment')}   gui=italic
+hi PreProc      guifg=${c('macro')}
+hi Identifier   guifg=${c('var')}
+hi Special      guifg=${c('special')}
+hi Error        guifg=${c('urgent')}`;
+
+  if (fmt === 'css') return `:root {
+${[...SLOTS.base,...SLOTS.syntax,...SLOTS.ui].map(s => `  --${s.key.replace('_','-')}: ${c(s.key)};`).join('\n')}
+}`;
+
+  if (fmt === 'json') {
+    const obj = {};
+    [...SLOTS.base,...SLOTS.syntax,...SLOTS.ui].forEach(s => { obj[s.key] = c(s.key); });
+    return JSON.stringify(obj, null, 2);
+  }
+  return '';
+}
+
+let lastFmt = null;
+function showExport(fmt) {
+  lastFmt = fmt;
+  document.getElementById('export-area').textContent = buildExport(fmt);
+}
+function copyExport() {
+  const text = document.getElementById('export-area').textContent;
+  if (!text || text === '← pick a format') return;
+  navigator.clipboard.writeText(text).then(() => toast('copied!'));
+}
+function copyAll() {
+  const allSlots = [...SLOTS.base, ...SLOTS.syntax, ...SLOTS.ui];
+  const text = allSlots.map(s => `${s.key}: ${getColor(s.key)}`).join('\n');
+  navigator.clipboard.writeText(text).then(() => toast('copied!'));
+}
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// Tabs
+document.getElementById('tabs').addEventListener('click', e => {
+  const t = e.target.dataset.tab;
+  if (!t) return;
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('tab-' + t).classList.add('active');
+  if (t === 'export' && lastFmt) showExport(lastFmt);
+});
+
+// Presets
+const presetEl = document.getElementById('presets');
+Object.keys(PRESETS).forEach(name => {
+  const btn = document.createElement('button');
+  btn.className = 'preset-btn';
+  btn.textContent = name;
+  btn.onclick = () => {
+    colors = JSON.parse(JSON.stringify(PRESETS[name]));
+    hueShift = 0;
+    document.getElementById('hue-shift').value = 0;
+    document.getElementById('hue-val').textContent = '0°';
+    syncSidebar();
+    renderAll();
+    if (lastFmt) showExport(lastFmt);
+  };
+  presetEl.appendChild(btn);
+});
+
+// Hue shift
+document.getElementById('hue-shift').addEventListener('input', e => {
+  hueShift = parseInt(e.target.value);
+  document.getElementById('hue-val').textContent = hueShift + '°';
+  renderAll();
+  if (lastFmt) showExport(lastFmt);
+});
+
+buildSidebar();
+renderAll();
+renderSavedList();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+onyx   - #20190C
+grey-1 - #3E413F
+grey-2 - #737975
+grey-3 - #ABB4AE
+grey-4 - #C7D1CA
+paper  - #ECE7E4
+pink   - #BC5A9E
+acent  - #3C45AC
+select - #D1DEC7
