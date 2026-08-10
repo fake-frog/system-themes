@@ -3,9 +3,10 @@
 (let ((accent  "#f66151")    
       (diff-bg "#dababa")
       (diff-fg "#bc8c8c")
-      (gray-11 "#1f1d1d") 
+      ;;(gray-11 "#1f1d1d")
+      (gray-11 "#111111")
       (gray-1c "#252121")    
-      (gray-22 "#3a3333")
+      (gray-22 "#1f1d1d")
       (gray-44 "#696262")
       (gray-66 "#dababa")    
       (gray-77 "#dababa")    
@@ -23,30 +24,45 @@
    `(cursor ((t (:background ,accent))))
    `(region ((t (:foreground ,accent :background ,gray-22))))
    `(highlight ((t (:background ,gray-22))))
-   `(hl-line ((t (:background ,gray-1c))))
+   `(hl-line ((t (:background ,gray-22))))
    `(fringe ((t (:background ,gray-11 :foreground ,gray-66))))
    `(vertical-border ((t (:foreground ,gray-44))))
 
    ;; Font lock
-   `(font-lock-comment-face ((t (:foreground ,gray-44))))
+   `(font-lock-comment-face ((t (:foreground ,gray-44 :slant italic))))
    `(font-lock-doc-face ((t (:foreground ,accent))))
-   `(font-lock-string-face ((t (:foreground ,gray-77 :background ,gray-22))))
+   `(font-lock-string-face ((t (:foreground ,accent-2))))
+   `(rust-string-interpolation ((t (:foreground ,gray-99))))
    `(font-lock-keyword-face ((t (:foreground ,purple))))
    `(font-lock-builtin-face ((t (:foreground ,gray-7c))))
-   `(font-lock-function-name-face ((t (:foreground ,gray-aa))))
+   `(font-lock-function-name-face ((t (:foreground ,gray-aa :slant italic))))
+   `(rust-ampersand-face ((t (:foreground ,gray-aa))))
+   `(rust-unsafe ((t (:foreground ,gray-aa))))
+   `(rust-question-mark ((t (:foreground ,gray-aa))))
+   `(rust-question-mark-face ((t (:foreground ,gray-aa))))
+;;   `(rust-builtin-formatting-macro ((t (:foreground ,purple))))
+   `(sh-quoted-exec ((t (:foreground ,gray-aa))))
    `(font-lock-variable-name-face ((t (:foreground ,gray-99))))
-   `(font-lock-type-face ((t (:foreground ,accent-2))))
-   `(font-lock-constant-face ((t (:foreground ,gray-aa))))
+   `(font-lock-type-face ((t (:foreground ,accent-2 :slant italic))))
+   `(font-lock-constant-face ((t (:foreground ,gray-7c))))
    `(font-lock-warning-face ((t (:foreground ,gray-44))))
    `(font-lock-negation-char-face ((t (:foreground ,purple))))
    `(font-lock-operator-face ((t (:foreground ,purple))))
    `(font-lock-punctuation-face ((t (:foreground ,purple))))
    `(font-lock-preprocessor-face ((t (:foreground ,purple))))
    `(button ((t (:foreground ,gray-aa :background ,gray-22))))
+   
 
    ;; Mode line
-   `(mode-line ((t (:foreground ,gray-7c :background ,gray-22 ))))
-   `(mode-line-inactive ((t (:foreground ,gray-66 :background ,gray-1c :box (:line-width 1 :color ,gray-1c)))))
+   
+
+
+
+
+;;(mode-line ((t (:background ,gray-11 :foreground ,accent-2 :box nil))))
+;;`(mode-line-inactive ((t (:background ,gray-11 :foreground ,gray-44 :box nil))))
+   `(mode-line ((t (:foreground ,accent-2 :background ,gray-22 :slant italic :weigth normal ))))
+   `(mode-line-inactive ((t (:foreground ,gray-44 :background ,gray-22 :box (:line-width 1 :color ,gray-1c)))))
    `(mode-line-buffer-id ((t (:weight bold))))
 
    ;; Minibuffer
@@ -71,6 +87,15 @@
    `(warning ((t (:foreground ,accent :weight bold))))
    `(success ((t (:foreground ,gray-77 :weight bold))))
 
+   `(flycheck-warning ((t (:underline (:color ,gray-44 :style line)))))
+   `(flycheck-error ((t (:underline (:color ,accent :style line)))))
+   `(flycheck-note ((t (:underline (:color ,gray-44 :style line)))))
+
+   `(flymake-warning ((t (:underline (:color ,gray-44 :style line)))))
+   `(flymake-error ((t (:underline (:color ,accent :style line)))))
+   `(flymake-note ((t (:underline (:color ,gray-44 :style line)))))
+
+
    ;; Diagnostic severity levels
    `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,gray-22 :underline nil))))
    `(lsp-lsp-flycheck-warning-unnecessary-face ((t (:foreground ,gray-22 :underline nil))))
@@ -86,7 +111,12 @@
    `(lsp-face-highlight-write ((t (:background ,gray-22))))
    `(lsp-face-highlight-textual ((t (:background ,gray-22))))
 
-   `(popup-tip-face ((t (:background ,accent :foreground ,gray-11))))
+   `(eglot-type-hint-face ((t (:foreground ,gray-44))))
+   `(eglot-inlay-hint-face ((t (:foreground ,gray-44))))
+;;   `(eglot-highlight-symbol-face ((t (:foreground ,gray-99 :background ,gray-22))))
+   `(eglot-diagnostic-tag-unnecessary-face ((t (:foreground ,gray-44))))
+   `(eglot-semantic-declaration ((t (:foreground ,gray-aa :slant italic))))
+   `(popup-tip-face ((t (:foreground ,gray-77 :background ,gray-22))))
 
    ;; Dired
    `(dired-directory ((t (:foreground ,gray-aa :weight bold))))
@@ -102,6 +132,11 @@
    `(company-tooltip-gray-22 ((t (:foreground ,gray-7c :background ,gray-22))))
    `(company-tooltip-common ((t (:foreground ,accent :weight bold))))
 
+   `(corfu-current ((t (:foreground ,accent-2))))
+   `(corfu-annotations ((t (:foreground ,gray-44))))
+   `(orderless-match-face-0 ((t (:foreground ,accent-2 :weight semi-bold))))
+   `(completions-annotations ((t (:foreground ,gray-44))))
+   
    ;; Org mode
    `(org-level-1 ((t (:foreground ,gray-aa :weight bold :height 1.3))))
    `(org-level-2 ((t (:foreground ,purple :weight bold :height 1.2))))
