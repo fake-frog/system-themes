@@ -1,150 +1,148 @@
 (deftheme min-bling "Like a scollars bed")
 
-(let ((accent  "#f66151")    
-      (diff-bg "#dababa")
-      (diff-fg "#bc8c8c")
-      ;;(gray-11 "#1f1d1d")
-      (gray-11 "#111111")
-      (gray-1c "#252121")    
-      (gray-22 "#1f1d1d")
-      (gray-44 "#696262")
-      (gray-66 "#dababa")    
-      (gray-77 "#dababa")    
-      (gray-7c "#dababa") 
-      (gray-99 "#dababa")  
-      (gray-aa "#f66151")
-      (accent-2 "#f666aa")   
-      (purple  "#dc8add"))  
+(let ((bg          "#111111")   ; default background
+      (bg-slight   "#131313")   ; region, hl-line, mode line
+      (bg-soft     "#1f1d1d")   ; region, hl-line, mode line
+      (bg-raised   "#252121")   ; popups, org blocks
+      (fg          "#dababa")   ; default foreground
+      (fg-dim      "#696262")   ; comments, inactive, hints
+      (accent      "#f66151")   ; cursor, errors, headings
+      (accent-alt  "#f666aa")   ; strings, types, mode line
+      (special     "#53997b")   ; dark green, preprocessor 
+      (purple      "#dc8add"))  ; keywords, operators, punctuation
 
   (custom-theme-set-faces
    'min-bling
 
    ;; Base faces
-   `(default ((t (:foreground ,gray-7c :background ,gray-11))))
-   `(cursor ((t (:background ,accent))))
-   `(region ((t (:foreground ,accent :background ,gray-22))))
-   `(highlight ((t (:background ,gray-22))))
-   `(hl-line ((t (:background ,gray-22))))
-   `(fringe ((t (:background ,gray-11 :foreground ,gray-66))))
-   `(vertical-border ((t (:foreground ,gray-44))))
+   `(default ((t (:foreground ,fg :background ,bg))))
+   `(cursor ((t (:background ,special))))
+   `(region ((t (:background ,bg-soft))))
+   `(highlight ((t (:background ,bg-soft))))
+   `(hl-line ((t (:background ,bg-slight))))
+   `(fringe ((t (:background ,bg :foreground ,fg))))
+   `(vertical-border ((t (:foreground ,fg-dim))))
 
    ;; Font lock
-   `(font-lock-comment-face ((t (:foreground ,gray-44 :slant italic))))
+   `(font-lock-comment-face ((t (:foreground ,fg-dim :slant italic))))
    `(font-lock-doc-face ((t (:foreground ,accent))))
-   `(font-lock-string-face ((t (:foreground ,accent-2))))
-   `(rust-string-interpolation ((t (:foreground ,gray-99))))
+   `(font-lock-string-face ((t (:foreground ,accent-alt))))
+   `(rust-string-interpolation ((t (:foreground ,fg))))
    `(font-lock-keyword-face ((t (:foreground ,purple))))
-   `(font-lock-builtin-face ((t (:foreground ,gray-7c))))
-   `(font-lock-function-name-face ((t (:foreground ,gray-aa :slant italic))))
-   `(rust-ampersand-face ((t (:foreground ,gray-aa))))
-   `(rust-unsafe ((t (:foreground ,gray-aa))))
-   `(rust-question-mark ((t (:foreground ,gray-aa))))
-   `(rust-question-mark-face ((t (:foreground ,gray-aa))))
-;;   `(rust-builtin-formatting-macro ((t (:foreground ,purple))))
-   `(sh-quoted-exec ((t (:foreground ,gray-aa))))
-   `(font-lock-variable-name-face ((t (:foreground ,gray-99))))
-   `(font-lock-type-face ((t (:foreground ,accent-2 :slant italic))))
-   `(font-lock-constant-face ((t (:foreground ,gray-7c))))
-   `(font-lock-warning-face ((t (:foreground ,gray-44))))
+   `(font-lock-builtin-face ((t (:foreground ,fg))))
+   `(font-lock-function-name-face ((t (:foreground ,accent :slant italic))))
+   `(rust-ampersand-face ((t (:foreground ,accent))))
+   `(rust-unsafe ((t (:foreground ,special))))
+   `(rust-question-mark ((t (:foreground ,accent))))
+   `(rust-question-mark-face ((t (:foreground ,accent))))
+   `(rust-builtin-formatting-macro ((t (:foreground ,special))))
+   `(sh-quoted-exec ((t (:foreground ,accent))))
+   `(font-lock-variable-name-face ((t (:foreground ,fg))))
+   `(font-lock-type-face ((t (:foreground ,accent-alt :slant italic))))
+   `(font-lock-constant-face ((t (:foreground ,fg))))
+   `(font-lock-warning-face ((t (:foreground ,fg-dim))))
    `(font-lock-negation-char-face ((t (:foreground ,purple))))
    `(font-lock-operator-face ((t (:foreground ,purple))))
    `(font-lock-punctuation-face ((t (:foreground ,purple))))
-   `(font-lock-preprocessor-face ((t (:foreground ,purple))))
-   `(button ((t (:foreground ,gray-aa :background ,gray-22))))
-   
+   `(font-lock-preprocessor-face ((t (:foreground ,special))))
+   `(button ((t (:foreground ,accent :background ,bg-soft))))
 
    ;; Mode line
-   
-
-
-
-
-;;(mode-line ((t (:background ,gray-11 :foreground ,accent-2 :box nil))))
-;;`(mode-line-inactive ((t (:background ,gray-11 :foreground ,gray-44 :box nil))))
-   `(mode-line ((t (:foreground ,accent-2 :background ,gray-22 :slant italic :weigth normal ))))
-   `(mode-line-inactive ((t (:foreground ,gray-44 :background ,gray-22 :box (:line-width 1 :color ,gray-1c)))))
+   `(mode-line ((t (:foreground ,accent-alt :background ,bg-soft :slant italic :weigth normal))))
+   `(mode-line-inactive ((t (:foreground ,fg-dim :background ,bg-soft :box (:line-width 1 :color ,bg-raised)))))
    `(mode-line-buffer-id ((t (:weight bold))))
 
    ;; Minibuffer
    `(minibuffer-prompt ((t (:foreground ,accent :weight bold))))
 
    ;; Search
-   `(isearch ((t (:foreground ,gray-7c :background ,gray-22 :weight bold))))
-   `(match ((t (:background ,gray-22 :foreground ,gray-7c))))
-   `(completions-common-part ((t (:background ,gray-22 :foreground ,gray-7c))))
-   `(lazy-highlight ((t (:foreground ,gray-7c :background ,gray-1c :underline t))))
+   `(isearch ((t (:foreground ,fg :background ,bg-soft :weight bold))))
+   `(match ((t (:background ,bg-soft :foreground ,fg))))
+   `(completions-common-part ((t (:background ,bg-soft :foreground ,fg))))
+   `(lazy-highlight ((t (:foreground ,fg :background ,bg-raised :underline t))))
 
    ;; Line numbers
-   `(line-number ((t (:foreground ,gray-44 :background ,gray-11))))
-   `(line-number-current-line ((t (:foreground ,gray-66 :background ,gray-11 :weight bold))))
+   `(line-number ((t (:foreground ,fg-dim :background ,bg))))
+   `(line-number-current-line ((t (:foreground ,special :background ,bg))))
 
    ;; Parentheses matching
-   `(show-paren-match ((t (:foreground ,gray-99 :background ,gray-11 :weight bold))))
-   `(show-paren-mismatch ((t (:foreground ,accent :background ,gray-11 :weight bold))))
+   `(show-paren-match ((t (:foreground ,fg :background ,bg :weight bold))))
+   `(show-paren-mismatch ((t (:foreground ,accent :background ,bg :weight bold))))
 
    ;; Error/warning faces
    `(error ((t (:foreground ,accent :weight bold))))
    `(warning ((t (:foreground ,accent :weight bold))))
-   `(success ((t (:foreground ,gray-77 :weight bold))))
+   `(success ((t (:foreground ,fg :weight bold))))
 
-   `(flycheck-warning ((t (:underline (:color ,gray-44 :style line)))))
+   `(flycheck-warning ((t (:underline (:color ,fg-dim :style line)))))
    `(flycheck-error ((t (:underline (:color ,accent :style line)))))
-   `(flycheck-note ((t (:underline (:color ,gray-44 :style line)))))
+   `(flycheck-note ((t (:underline (:color ,fg-dim :style line)))))
 
-   `(flymake-warning ((t (:underline (:color ,gray-44 :style line)))))
+   `(flymake-warning ((t (:underline (:color ,fg-dim :style line)))))
    `(flymake-error ((t (:underline (:color ,accent :style line)))))
-   `(flymake-note ((t (:underline (:color ,gray-44 :style line)))))
-
+   `(flymake-note ((t (:underline (:color ,fg-dim :style line)))))
 
    ;; Diagnostic severity levels
-   `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,gray-22 :underline nil))))
-   `(lsp-lsp-flycheck-warning-unnecessary-face ((t (:foreground ,gray-22 :underline nil))))
+   `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,bg-soft :underline nil))))
+   `(lsp-lsp-flycheck-warning-unnecessary-face ((t (:foreground ,bg-soft :underline nil))))
 
    ;; LSP UI faces
-   `(lsp-ui-doc-background ((t (:background ,gray-22))))
-   `(lsp-ui-doc-header ((t (:foreground ,gray-22))))
+   `(lsp-ui-doc-background ((t (:background ,bg-soft))))
+   `(lsp-ui-doc-header ((t (:foreground ,bg-soft))))
    `(lsp-ui-peek-filename ((t (:foreground ,accent))))
-   `(lsp-ui-peek-header ((t (:background ,gray-22))))
+   `(lsp-ui-peek-header ((t (:background ,bg-soft))))
    `(lsp-ui-sideline-code-action ((t (:foreground ,accent))))
 
-   `(lsp-face-highlight-read ((t (:background ,gray-22))))
-   `(lsp-face-highlight-write ((t (:background ,gray-22))))
-   `(lsp-face-highlight-textual ((t (:background ,gray-22))))
+   `(lsp-face-highlight-read ((t (:background ,bg-soft))))
+   `(lsp-face-highlight-write ((t (:background ,bg-soft))))
+   `(lsp-face-highlight-textual ((t (:background ,bg-soft))))
 
-   `(eglot-type-hint-face ((t (:foreground ,gray-44))))
-   `(eglot-inlay-hint-face ((t (:foreground ,gray-44))))
-;;   `(eglot-highlight-symbol-face ((t (:foreground ,gray-99 :background ,gray-22))))
-   `(eglot-diagnostic-tag-unnecessary-face ((t (:foreground ,gray-44))))
-   `(eglot-semantic-declaration ((t (:foreground ,gray-aa :slant italic))))
-   `(popup-tip-face ((t (:foreground ,gray-77 :background ,gray-22))))
+   `(eglot-type-hint-face ((t (:foreground ,fg-dim))))
+   `(eglot-inlay-hint-face ((t (:foreground ,fg-dim))))
+;;   `(eglot-highlight-symbol-face ((t (:foreground ,fg :background ,bg-soft))))
+   `(eglot-diagnostic-tag-unnecessary-face ((t (:foreground ,fg-dim))))
+   `(eglot-semantic-declaration ((t (:foreground ,accent :slant italic))))
+   `(popup-tip-face ((t (:foreground ,fg :background ,bg-soft))))
 
    ;; Dired
-   `(dired-directory ((t (:foreground ,gray-aa :weight bold))))
-   `(dired-symlink ((t (:foreground ,gray-aa))))
-   `(dired-executable ((t (:foreground ,gray-77))))
+   `(dired-directory ((t (:foreground ,accent :weight bold))))
+   `(dired-symlink ((t (:foreground ,accent))))
+   `(dired-executable ((t (:foreground ,fg))))
 
-   `(minibuffer-prompt ((t (:foreground ,accent :weight bold))))
-   `(help-key-binding ((t (:foreground ,accent :background ,gray-11))))
+   `(help-key-binding ((t (:foreground ,accent :background ,bg))))
    `(read-multiple-choice-face ((t (:foreground ,accent :weight bold))))
 
+   ;;Avy
+   `(avy-lead-face ((t (:foreground ,bg :background ,special))))
+   `(avy-lead-face-0 ((t (:foreground ,bg :background ,purple))))
+   `(avy-lead-face-1 ((t (:foreground ,bg :background ,accent))))
+   `(avy-lead-face-2 ((t (:foreground ,bg :background ,accent-alt))))
+   `(avy-background-face ((t (:foreground ,fg-dim))))
+
+   ;;Ace Window
+
+   `(aw-background-face ((t (:foreground ,fg-dim))))
+   `(aw-leading-char-face ((t (:foreground ,accent :weight bold))))
+   `(aw-minibuffer-leading-char-face ((t (:foreground ,accent :weight bold))))
+
    ;; Company
-   `(company-tooltip ((t (:foreground ,gray-7c :background ,gray-1c))))
-   `(company-tooltip-gray-22 ((t (:foreground ,gray-7c :background ,gray-22))))
+   `(company-tooltip ((t (:foreground ,fg :background ,bg-raised))))
+   `(company-tooltip-selection ((t (:foreground ,fg :background ,bg-soft))))
    `(company-tooltip-common ((t (:foreground ,accent :weight bold))))
 
-   `(corfu-current ((t (:foreground ,accent-2))))
-   `(corfu-annotations ((t (:foreground ,gray-44))))
-   `(orderless-match-face-0 ((t (:foreground ,accent-2 :weight semi-bold))))
-   `(completions-annotations ((t (:foreground ,gray-44))))
-   
+   `(corfu-current ((t (:foreground ,accent-alt))))
+   `(corfu-annotations ((t (:foreground ,fg-dim))))
+   `(orderless-match-face-0 ((t (:foreground ,accent-alt :weight semi-bold))))
+   `(completions-annotations ((t (:foreground ,fg-dim))))
+
    ;; Org mode
-   `(org-level-1 ((t (:foreground ,gray-aa :weight bold :height 1.3))))
+   `(org-level-1 ((t (:foreground ,accent :weight bold :height 1.3))))
    `(org-level-2 ((t (:foreground ,purple :weight bold :height 1.2))))
-   `(org-level-3 ((t (:foreground ,gray-77 :weight bold :height 1.1))))
+   `(org-level-3 ((t (:foreground ,fg :weight bold :height 1.1))))
    `(org-level-4 ((t (:foreground ,accent :weight bold))))
-   `(org-code ((t (:foreground ,gray-aa :background ,gray-1c))))
-   `(org-block ((t (:background ,gray-1c))))
-   `(org-block-begin-line ((t (:foreground ,accent :background ,gray-1c))))
+   `(org-code ((t (:foreground ,accent :background ,bg-raised))))
+   `(org-block ((t (:background ,bg-raised))))
+   `(org-block-begin-line ((t (:foreground ,accent :background ,bg-raised))))
    `(org-block-end-line ((t (:inherit org-block-begin-line))))
 
    ;; Markdown
@@ -154,40 +152,37 @@
    `(markdown-code-face ((t (:inherit org-code))))
 
    ;; Magit
-   `(magit-branch-local ((t (:foreground ,gray-aa))))
-   `(magit-branch-remote ((t (:foreground ,gray-77))))
-   `(magit-diff-added ((t (:foreground ,gray-77 :background ,(concat gray-77 "20")))))
+   `(magit-branch-local ((t (:foreground ,accent))))
+   `(magit-branch-remote ((t (:foreground ,fg))))
+   `(magit-diff-added ((t (:foreground ,fg :background ,(concat fg "20")))))
    `(magit-diff-removed ((t (:foreground ,accent :background ,(concat accent "20")))))
-   `(magit-diff-context ((t (:foreground ,gray-66))))
-   `(diff-hl-margin-change ((t (:foreground ,gray-44 :background ,gray-22))))
-   `(diff-hl-change ((t (:foreground ,gray-44 :background ,gray-22))))
-   `(diff-hl-margin-insert ((t (:foreground ,gray-44 :background ,gray-22))))
-   `(diff-hl-margin-delete ((t (:foreground ,gray-44 :background ,gray-22))))
+   `(magit-diff-context ((t (:foreground ,fg))))
+   `(diff-hl-margin-change ((t (:foreground ,purple :background ,bg-soft))))
+   `(diff-hl-margin-insert ((t (:foreground ,special :background ,bg-soft))))
+   `(diff-hl-margin-delete ((t (:foreground ,accent :background ,bg-soft))))
 
    ;; Which-key
    `(which-key-key-face ((t (:foreground ,accent :weight bold))))
-   `(which-key-description-face ((t (:foreground ,gray-7c))))
+   `(which-key-description-face ((t (:foreground ,fg))))
    `(which-key-group-description-face ((t (:foreground ,purple))))
 
    ;; Helm/Ivy
-   `(helm-gray-22 ((t (:foreground ,accent :background ,gray-22))))
-   `(ivy-current-match ((t (:foreground ,accent :background ,gray-22 :weight bold))))
-   `(ivy-minibuffer-match-highlight ((t (:background ,gray-22 ))))
-   `(ivy-minibuffer-match-1 ((t (:background ,gray-22 ))))
-   `(ivy-minibuffer-match-face-1 ((t (:background ,gray-22 ))))
-   `(ivy-minibuffer-match-face-2 ((t (:foreground ,accent :background ,gray-22 ))))
+   `(helm-selection ((t (:foreground ,accent :background ,bg-soft))))
+   `(ivy-current-match ((t (:foreground ,accent :background ,bg-soft :weight bold))))
+   `(ivy-minibuffer-match-highlight ((t (:background ,bg-soft))))
+   `(ivy-minibuffer-match-1 ((t (:background ,bg-soft))))
+   `(ivy-minibuffer-match-face-1 ((t (:background ,bg-soft))))
+   `(ivy-minibuffer-match-face-2 ((t (:foreground ,accent :background ,bg-soft))))
 
    ;; vterm
-   `(vterm-color-black ((t ( :foreground ,gray-11 :background ,gray-11))))
-   `(vterm-color-red ((t ( :foreground ,accent :background ,accent))))
-   `(vterm-color-gray-77 ((t ( :foreground ,gray-77 :background ,gray-77))))
-   `(vterm-color-yellow ((t ( :foreground ,gray-99 :background ,gray-99))))
-   `(vterm-color-blue ((t ( :foreground ,gray-aa :background ,gray-aa))))
-   `(vterm-color-magenta ((t ( :foreground ,purple :background ,purple))))
-   `(vterm-color-gray-aa ((t ( :foreground ,gray-aa :background ,gray-aa))))
-   `(vterm-color-white ((t( :foreground ,gray-7c :background ,gray-7c))))
+   `(vterm-color-black ((t (:foreground ,bg :background ,bg))))
+   `(vterm-color-red ((t (:foreground ,accent :background ,accent))))
+   `(vterm-color-green ((t (:foreground ,fg :background ,fg))))
+   `(vterm-color-yellow ((t (:foreground ,fg :background ,fg))))
+   `(vterm-color-blue ((t (:foreground ,accent :background ,accent))))
+   `(vterm-color-magenta ((t (:foreground ,purple :background ,purple))))
+   `(vterm-color-cyan ((t (:foreground ,accent :background ,accent))))
+   `(vterm-color-white ((t (:foreground ,fg :background ,fg))))
    ))
 
 (provide-theme 'min-bling)
-
-
