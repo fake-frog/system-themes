@@ -17,7 +17,7 @@
    ;; Base faces
    `(default ((t (:foreground ,fg :background ,bg))))
    `(cursor ((t (:background ,special))))
-   `(region ((t (:background ,bg-soft))))
+   `(region ((t (:foreground ,bg :background ,special ))))
    `(highlight ((t (:background ,bg-soft))))
    `(hl-line ((t (:background ,bg-slight))))
    `(fringe ((t (:background ,bg :foreground ,fg))))
@@ -35,7 +35,7 @@
    `(rust-unsafe ((t (:foreground ,special))))
    `(rust-question-mark ((t (:foreground ,accent))))
    `(rust-question-mark-face ((t (:foreground ,accent))))
-   `(rust-builtin-formatting-macro ((t (:foreground ,special))))
+   `(rust-builtin-formatting-macro ((t (:foreground ,fg))))
    `(sh-quoted-exec ((t (:foreground ,accent))))
    `(font-lock-variable-name-face ((t (:foreground ,fg))))
    `(font-lock-type-face ((t (:foreground ,accent-alt :slant italic))))
