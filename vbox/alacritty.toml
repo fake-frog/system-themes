@@ -1,0 +1,53 @@
+[window]
+opacity = 1
+dynamic_padding = true
+
+[window.padding]
+x = 15
+y = 10
+
+[font]
+size = 10
+
+[font.normal]
+family = "lilex"
+style = "normal"
+
+[font.offset]
+y=0
+
+[cursor]
+#style = { shape = "Beam", blinking = "On" }
+#thickness  = 0.2
+
+[colors.primary]
+background = '#100401'
+foreground = '#e49358'
+
+[colors.cursor]
+text   = '#100401'
+cursor = '#e49358'
+
+[colors.selection]
+text       = '#100401'
+background = '#d97b0c'
+
+[colors.normal]
+black   = '#120501'
+red     = '#a92e4b'
+green   = '#e49358'
+yellow  = '#d74010'
+blue    = '#e49358'
+magenta = '#d84e65'
+cyan    = '#e49358'
+white   = '#e49358'
+
+[colors.bright]
+black   = '#6c3220'
+red     = '#a92e4b'
+green   = '#e49358'
+yellow  = '#e49358'
+blue    = '#d74010'
+magenta = '#e49358'
+cyan    = '#e49358'
+white   = '#e49358'

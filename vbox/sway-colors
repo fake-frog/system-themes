@@ -1,0 +1,27 @@
+output * bg #120501 solid_color
+
+gaps inner 10
+gaps outer 5
+
+default_border pixel 1
+default_floating_border pixel 1
+
+
+set $bg-color            #100401
+set $inactive-bg-color   #120501
+set $text-color          #e49358
+set $inactive-text-color #6c3220
+set $urgent-bg-color     #a92e4b
+set $indicator-color     #d74010
+set $focused-border      #281105
+set $unfocused-border    #120501
+set $popout-color        #d74010
+
+client.focused          $focused-border     $bg-color          $text-color          $indicator-color   $focused-border
+client.focused_inactive $unfocused-border   $inactive-bg-color $inactive-text-color $unfocused-border  $unfocused-border
+client.unfocused        $unfocused-border   $inactive-bg-color $inactive-text-color $unfocused-border  $unfocused-border
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $urgent-bg-color   $urgent-bg-color
+client.placeholder      $bg-color           $bg-color          $text-color          $bg-color          $bg-color
+client.background       $bg-color
+
+bindsym $mod+d exec bemenu-run -c -w -W 0.5 D -H 24 --hp 10 -l 15 --nb '$unfocused-border' --nf '$text-color' --ab '$inactive-bg-color' --af '$text-color' --fb '$unfocused-border' --ff '$text-color' --tb '$popout-color' --tf '$text-color' --hb '$popout-color' --hf '$bg-color' --sb '$popout-color' --sf '$text-color'
