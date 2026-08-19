@@ -8,7 +8,7 @@
       (fg-dim      "#6c3220")   ; comments, inactive, hints
       (accent      "#d84e65")   ; cursor, errors, headings
       (accent-alt  "#d74010")   ; strings, types, mode line
-      (special     "#e49358")   ; dark green, preprocessor 
+      (special     "#e49358")   ; dark green, preprocessor
       (purple      "#e49358"))  ; keywords, operators, punctuation
 
   (custom-theme-set-faces
@@ -17,7 +17,7 @@
    ;; Base faces
    `(default ((t (:foreground ,fg :background ,bg))))
    `(cursor ((t (:background ,special))))
-   `(region ((t (:foreground ,bg :background ,special))))
+   `(region ((t (:foreground ,bg :background ,fg))))
    `(highlight ((t (:background ,bg-soft))))
    `(hl-line ((t (:background ,bg-slight))))
    `(fringe ((t (:background ,bg :foreground ,fg))))
@@ -37,6 +37,7 @@
    `(rust-question-mark-face ((t (:foreground ,accent))))
    `(rust-builtin-formatting-macro ((t (:foreground ,special))))
    `(sh-quoted-exec ((t (:foreground ,accent))))
+   `(sh-heredoc ((t (:foreground ,accent))))
    `(font-lock-variable-name-face ((t (:foreground ,fg))))
    `(font-lock-type-face ((t (:foreground ,accent-alt :slant italic))))
    `(font-lock-constant-face ((t (:foreground ,fg))))
@@ -44,7 +45,7 @@
    `(font-lock-negation-char-face ((t (:foreground ,purple))))
    `(font-lock-operator-face ((t (:foreground ,purple))))
    `(font-lock-punctuation-face ((t (:foreground ,purple))))
-   `(font-lock-preprocessor-face ((t (:foreground ,special :slant italic))))
+   `(font-lock-preprocessor-face ((t (:foreground ,accent))))
    `(button ((t (:foreground ,accent :background ,bg-soft))))
 
    ;; Mode line
@@ -78,13 +79,13 @@
    `(warning ((t (:foreground ,accent :weight bold))))
    `(success ((t (:foreground ,fg :weight bold))))
 
-   `(flycheck-warning ((t (:underline (:color ,fg-dim :style line)))))
-   `(flycheck-error ((t (:underline (:color ,accent :style line)))))
-   `(flycheck-note ((t (:underline (:color ,fg-dim :style line)))))
+   `(flycheck-warning ((t (:underline (:color ,fg-dim :style wave)))))
+   `(flycheck-error ((t (:underline (:color ,accent :style wave)))))
+   `(flycheck-note ((t (:underline (:color ,fg-dim :style wave)))))
 
-   `(flymake-warning ((t (:underline (:color ,fg-dim :style line)))))
-   `(flymake-error ((t (:underline (:color ,accent :style line)))))
-   `(flymake-note ((t (:underline (:color ,fg-dim :style line)))))
+   `(flymake-warning ((t (:underline (:color ,fg-dim :style wave)))))
+   `(flymake-error ((t (:underline (:color ,accent :style wave)))))
+   `(flymake-note ((t (:underline (:color ,fg-dim :style wave)))))
 
    ;; Diagnostic severity levels
    `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,bg-soft :underline nil))))
@@ -124,7 +125,6 @@
    `(avy-background-face ((t (:foreground ,fg-dim))))
 
    ;;Ace Window
-
    `(aw-background-face ((t (:foreground ,fg-dim))))
    `(aw-leading-char-face ((t (:foreground ,accent :weight bold))))
    `(aw-minibuffer-leading-char-face ((t (:foreground ,accent :weight bold))))
@@ -134,11 +134,17 @@
    `(company-tooltip-selection ((t (:foreground ,fg :background ,bg-soft))))
    `(company-tooltip-common ((t (:foreground ,accent :weight bold))))
 
+   ;; Corfu
    `(corfu-current ((t (:foreground ,accent-alt :background ,bg-raised))))
    `(corfu-default ((t (:foreground ,fg :background ,bg-slight))))
    `(corfu-annotations ((t (:foreground ,fg-dim))))
    `(orderless-match-face-0 ((t (:foreground ,accent-alt :weight semi-bold))))
    `(completions-annotations ((t (:foreground ,fg-dim))))
+
+   ;;Vertico
+   `(vertico-multiline ((t (:foreground ,accent))))
+   `(vertico-group-title ((t (:foreground ,fg-dim))))
+   `(vertico-group-separator ((t (:foreground ,fg-dim :strike-through t))))
 
    ;; Org mode
    `(org-level-1 ((t (:foreground ,accent :weight bold :height 1.3))))
@@ -148,7 +154,7 @@
    `(org-code ((t (:foreground ,accent :background ,bg-raised))))
    `(org-block ((t (:background ,bg-raised))))
    `(org-block-begin-line ((t (:foreground ,accent :background ,bg-raised))))
-   `(org-block-end-line ((t (:inherit org-block-begin-line))))
+   `(org-block-end-line ((t (:inherit org-block-begin wave))))
 
    ;; Markdown
    `(markdown-header-face-1 ((t (:inherit org-level-1))))
@@ -162,9 +168,9 @@
    `(magit-diff-added ((t (:foreground ,fg :background ,(concat fg "20")))))
    `(magit-diff-removed ((t (:foreground ,accent :background ,(concat accent "20")))))
    `(magit-diff-context ((t (:foreground ,fg))))
-   `(diff-hl-margin-change ((t (:foreground ,purple :background ,bg-soft))))
-   `(diff-hl-margin-insert ((t (:foreground ,special :background ,bg-soft))))
-   `(diff-hl-margin-delete ((t (:foreground ,accent :background ,bg-soft))))
+   `(diff-hl-margin-change ((t (:foreground "#6536ab" :background ,bg-soft)))) ;
+   `(diff-hl-margin-insert ((t (:foreground "#659936" :background ,bg-soft))))
+   `(diff-hl-margin-delete ((t (:foreground "#bb3665" :background ,bg-soft))))
 
    ;; Which-key
    `(which-key-key-face ((t (:foreground ,accent :weight bold))))
