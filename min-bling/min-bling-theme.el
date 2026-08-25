@@ -1,6 +1,6 @@
 (deftheme min-bling "Like a scollars bed")
 
-(let ((bg          "#111111")   ; default background
+(let ((bg          "#000000")   ; default background
       (bg-slight   "#131313")   ; region, hl-line, mode line
       (bg-soft     "#1f1d1d")   ; region, hl-line, mode line
       (bg-raised   "#252121")   ; popups, org blocks
@@ -17,7 +17,7 @@
    ;; Base faces
    `(default ((t (:foreground ,fg :background ,bg))))
    `(cursor ((t (:background ,special))))
-   `(region ((t (:foreground ,bg :background ,special ))))
+   `(region ((t (:foreground ,bg :background ,fg ))))
    `(highlight ((t (:background ,bg-soft))))
    `(hl-line ((t (:background ,bg-slight))))
    `(fringe ((t (:background ,bg :foreground ,fg))))
@@ -35,7 +35,7 @@
    `(rust-unsafe ((t (:foreground ,special))))
    `(rust-question-mark ((t (:foreground ,accent))))
    `(rust-question-mark-face ((t (:foreground ,accent))))
-   `(rust-builtin-formatting-macro ((t (:foreground ,fg))))
+   `(rust-builtin-formatting-macro ((t (:foreground ,special))))
    `(sh-quoted-exec ((t (:foreground ,accent))))
    `(font-lock-variable-name-face ((t (:foreground ,fg))))
    `(font-lock-type-face ((t (:foreground ,accent-alt :slant italic))))
@@ -51,6 +51,11 @@
    `(mode-line ((t (:foreground ,accent-alt :background ,bg-soft :slant italic :weigth normal))))
    `(mode-line-inactive ((t (:foreground ,fg-dim :background ,bg-soft :box (:line-width 1 :color ,bg-raised)))))
    `(mode-line-buffer-id ((t (:weight bold))))
+   `(mood-line-unimportant ((t (:foreground ,fg-dim))))
+   `(mood-line-status-neutral ((t (:foreground ,fg-dim))))
+   `(mood-line-frame-status-client ((t (:foreground ,fg-dim))))
+   `(mood-line-encoding ((t (:foreground ,fg-dim))))
+   `(mood-line-buffer-status-read-only ((t (:foreground ,fg-dim))))
 
    ;; Minibuffer
    `(minibuffer-prompt ((t (:foreground ,accent :weight bold))))
@@ -74,13 +79,13 @@
    `(warning ((t (:foreground ,accent :weight bold))))
    `(success ((t (:foreground ,fg :weight bold))))
 
-   `(flycheck-warning ((t (:underline (:color ,fg-dim :style line)))))
-   `(flycheck-error ((t (:underline (:color ,accent :style line)))))
-   `(flycheck-note ((t (:underline (:color ,fg-dim :style line)))))
+   `(flycheck-warning ((t (:underline (:color ,fg-dim :style wave)))))
+   `(flycheck-error ((t (:underline (:color ,accent :style wave)))))
+   `(flycheck-note ((t (:underline (:color ,fg-dim :style wave)))))
 
-   `(flymake-warning ((t (:underline (:color ,fg-dim :style line)))))
-   `(flymake-error ((t (:underline (:color ,accent :style line)))))
-   `(flymake-note ((t (:underline (:color ,fg-dim :style line)))))
+   `(flymake-warning ((t (:underline (:color ,fg-dim :style wave)))))
+   `(flymake-error ((t (:underline (:color ,accent :style wave)))))
+   `(flymake-note ((t (:underline (:color ,fg-dim :style wave)))))
 
    ;; Diagnostic severity levels
    `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,bg-soft :underline nil))))
@@ -130,10 +135,18 @@
    `(company-tooltip-selection ((t (:foreground ,fg :background ,bg-soft))))
    `(company-tooltip-common ((t (:foreground ,accent :weight bold))))
 
+    ;; Corfu
    `(corfu-current ((t (:foreground ,accent-alt))))
    `(corfu-annotations ((t (:foreground ,fg-dim))))
+   `(corfu-default ((t (:foreground ,fg :background ,bg-slight))))
    `(orderless-match-face-0 ((t (:foreground ,accent-alt :weight semi-bold))))
    `(completions-annotations ((t (:foreground ,fg-dim))))
+
+      ;;Vertico
+   `(vertico-multiline ((t (:foreground ,accent))))
+   `(vertico-group-title ((t (:foreground ,fg-dim))))
+   `(vertico-group-separator ((t (:foreground ,fg-dim :strike-through t))))
+
 
    ;; Org mode
    `(org-level-1 ((t (:foreground ,accent :weight bold :height 1.3))))

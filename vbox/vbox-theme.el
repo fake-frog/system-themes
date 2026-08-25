@@ -51,7 +51,8 @@
    ;; Mode line
    `(mode-line ((t (:foreground ,accent-alt :background ,bg-soft :slant italic :weigth normal))))
    `(mode-line-inactive ((t (:foreground ,fg-dim :background ,bg-slight :box (:line-width 1 :color ,bg-raised)))))
-   `(mode-line-buffer-id ((t (:weight bold))))   `(mood-line-unimportant ((t (:foreground ,fg-dim))))
+   `(mode-line-buffer-id ((t (:weight bold))))
+   `(mood-line-unimportant ((t (:foreground ,fg-dim))))
    `(mood-line-status-neutral ((t (:foreground ,fg-dim))))
    `(mood-line-frame-status-client ((t (:foreground ,fg-dim))))
    `(mood-line-encoding ((t (:foreground ,fg-dim))))
