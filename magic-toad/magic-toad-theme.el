@@ -10,6 +10,9 @@
       (accent-alt  "#f666aa")   ; strings, types, mode line
       (special     "#53997b")   ; dark green, preprocessor 
       (purple      "#dc8add"))  ; keywords, operators, punctuation
+  
+  (setq rustic-ansi-faces
+     (vector bg accent purple special fg accent-alt fg fg))
 
   (custom-theme-set-faces
    'magic-toad
@@ -82,11 +85,11 @@
 
    `(flycheck-warning ((t (:underline (:color ,fg-dim :style wave)))))
    `(flycheck-error ((t (:underline (:color ,accent :style wave)))))
-   `(flycheck-note ((t (:underline (:color ,fg-dim :style wave)))))
+   `(flycheck-note ((t (:underline (:color ,purple :style wave)))))
 
    `(flymake-warning ((t (:underline (:color ,fg-dim :style wave)))))
    `(flymake-error ((t (:underline (:color ,accent :style wave)))))
-   `(flymake-note ((t (:underline (:color ,fg-dim :style wave)))))
+   `(flymake-note ((t (:underline (:color ,purple :style wave)))))
 
    ;; Diagnostic severity levels
    `(lsp-lsp-flycheck-error-unnecessary-face ((t (:foreground ,bg-soft :underline nil))))
@@ -197,6 +200,63 @@
    `(vterm-color-magenta ((t (:foreground ,purple :background ,purple))))
    `(vterm-color-cyan ((t (:foreground ,accent :background ,accent))))
    `(vterm-color-white ((t (:foreground ,fg :background ,fg))))
+
+   ;; --- ANSI / term.el colors ---
+   `(term-color-black          ((t (:foreground ,bg))))
+   `(term-color-red            ((t (:foreground ,accent))))
+   `(term-color-green          ((t (:foreground ,purple))))
+   `(term-color-yellow         ((t (:foreground ,special))))
+   `(term-color-blue           ((t (:foreground ,fg))))
+   `(term-color-magenta        ((t (:foreground ,accent-alt))))
+   `(term-color-cyan           ((t (:foreground ,fg))))
+   `(term-color-white          ((t (:foreground ,fg))))
+   
+   `(term-color-bright-black   ((t (:foreground ,fg-dim))))
+   `(term-color-bright-red     ((t (:foreground ,accent))))
+   `(term-color-bright-green   ((t (:foreground ,purple))))
+   `(term-color-bright-yellow  ((t (:foreground ,special))))
+   `(term-color-bright-blue    ((t (:foreground ,bg-raised))))
+   `(term-color-bright-magenta ((t (:foreground ,accent-alt))))
+   `(term-color-bright-cyan    ((t (:foreground ,fg))))
+   `(term-color-bright-white   ((t (:foreground ,fg))))
+   
+   ;; --- compilation-mode ---
+   `(compilation-error         ((t (:foreground ,accent :weight bold))))
+   `(compilation-warning       ((t (:foreground ,special :weight bold))))
+   `(compilation-info          ((t (:foreground ,purple))))
+   `(compilation-line-number   ((t (:foreground ,fg-dim))))
+   `(compilation-column-number ((t (:foreground ,fg-dim))))
+   `(compilation-mode-line-exit ((t (:foreground ,special :weight bold))))
+   `(compilation-mode-line-fail ((t (:foreground ,accent :weight bold))))
+   `(compilation-mode-line-run  ((t (:foreground ,accent-alt :weight bold))))
+
+     ;; --- ansi-color faces (normal) ---
+    `(ansi-color-black   ((t (:foreground ,bg))))
+    `(ansi-color-red     ((t (:foreground ,accent))))
+    `(ansi-color-green   ((t (:foreground ,purple))))
+    `(ansi-color-yellow  ((t (:foreground ,special))))
+    `(ansi-color-blue    ((t (:foreground ,fg))))
+    `(ansi-color-magenta ((t (:foreground ,accent-alt))))
+    `(ansi-color-cyan    ((t (:foreground ,fg))))
+    `(ansi-color-white   ((t (:foreground ,fg))))
+    
+    ;; --- ansi-color faces (bright) ---
+    `(ansi-color-bright-black   ((t (:foreground ,fg-dim))))
+    `(ansi-color-bright-red     ((t (:foreground ,accent))))
+    `(ansi-color-bright-green   ((t (:foreground ,purple))))
+    `(ansi-color-bright-yellow  ((t (:foreground ,special))))
+    `(ansi-color-bright-blue    ((t (:foreground ,bg-raised))))
+    `(ansi-color-bright-magenta ((t (:foreground ,accent-alt))))
+    `(ansi-color-bright-cyan    ((t (:foreground ,fg))))
+    `(ansi-color-bright-white   ((t (:foreground ,fg))))
+
+   ;; --- cargo / rustic-compilation ---   
+   `(rustic-compilation-line   ((t (:foreground ,fg-dim))))
+   `(rustic-compilation-column ((t (:inherit compilation-column-number))))
+   `(rustic-compilation-error  ((t (:foreground ,accent :weight bold))))
+   `(rustic-compilation-warning ((t (:foreground ,special :weight bold))))
+   `(rustic-compilation-info   ((t (:foreground ,purple))))
+   `(rustic-message            ((t (:foreground ,fg))))
    ))
 
 (provide-theme 'magic-toad)
