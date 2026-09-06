@@ -1,0 +1,85 @@
+// ~/.config/waybar/config
+{
+    "layer": "top",
+    "position": "top",
+    "height": 26,
+    "spacing": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+
+    "modules-left": ["sway/workspaces", "backlight", "pulseaudio","network", "tray", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": [ "disk", "memory", "cpu", "temperature", "battery"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": "  {}  "
+    },
+
+    "clock": {
+        "format": "<span color='#dc8add'>--  </span>{:%I:%M  %a %d %b}<span color='#dc8add'>  --</span>",
+        "tooltip-format": "{:%Y-%m-%d}"
+    },
+
+    "pulseaudio": {
+        "format": "<span font='11px' color='#dc8add'></span> {volume}%",
+        "format-muted": "",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+
+    "network": {
+        "format-wifi": "<span font='10px' color='#dc8add'> </span>{essid}",
+        "format-ethernet": "eth",
+        "format-disconnected": "disconnected",
+        "tooltip-format": "{ifname} via {gwaddr}"
+    },
+
+    "disk": {
+        "path": "/",
+        "format": "<span font='11px' color='#dc8add'>  </span>{free}",
+        "tooltip-format": "{used} used / {total} total"
+    },
+
+    "memory": {
+         "format": "<span font='11px' color='#dc8add'> </span> {percentage}%"
+    },
+    
+    "cpu": {
+         "format": "<span font='11px' color='#dc8add'></span> {usage}%"
+    },
+    
+    "temperature": {
+         "thermal-zone": 1,
+         "format": "<span font='12px' color='#dc8add'></span> {temperatureC}°C"
+    },
+
+
+    "backlight": {
+        "format": "<span font='11px' color='#dc8add'>{icon}</span> {percent}%",
+        "format-icons": ["", " "],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+
+    "battery": {
+    "states": {
+        "warning": 25,
+        "critical": 15
+    },
+    "format": "<span font='11px' color='#dc8add'>{icon}</span> {capacity}%",
+    "format-charging": "<span font='11px' color='#dc8add'></span> {capacity}%",
+    "format-plugged": "<span font='11px' color='#dc8add'></span> {capacity}%",
+    "format-icons": ["", "", "", "", ""] 
+    },
+
+    "tray": {
+        "spacing": 8
+    }
+}
