@@ -1,0 +1,194 @@
+/* ~/.config/waybar/style.css
+ * Nano Emacs style: one accent color, no icons, no borders/shadows,
+ * separation via off-white blocks and generous spacing.
+ */
+* {
+    font-family: "Inclusive Sans", "Font Awesome", monospace;
+    font-style: normal;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    color: #696262
+}
+
+window#waybar {
+    background: #f1ebe4;
+    color: #696262;
+/*    border-style: solid;
+    border-width: 1px;
+    border-color: #3a3a3a; */
+}
+
+
+#workspaces,
+#mode,
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#idle_inhibitor,
+#language,
+#bluetooth,
+#tray,
+#scratchpad,
+#custom-* {
+    margin: 3px 5px;
+    padding: 2px 10px; 
+    background-color: transparent;
+    color: #696262;
+}
+
+/* ── Workspaces ─────────────────────────────────────────────────────── */
+#workspaces button {
+    padding: 0px 0px;
+    margin-right: 5px;
+    background-color: #f1ebe4;
+    /*padding-left: 2px;*/
+}
+
+#workspaces button label {
+    color: inherit; /* icons/numbers sometimes need this forced */
+}
+
+/* Sway naming */
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: #53997b;
+    color: #f1ebe4;
+}
+
+#workspaces button.visible {
+    background-color: #dc8add; /* on-screen but not focused (multi-monitor) */
+}
+
+#workspaces button.persistent {
+    background-color: #dc8add; /* same as default, exists but unoccupied */
+}
+
+#workspaces button.empty {
+    background-color: transparent;
+    color: #3a3a3a;
+}
+
+#workspaces button.urgent {
+    color: rgba(17, 17, 17, 1.00);
+    background-color: #f66151;
+}
+
+#workspaces button:hover {
+    background-color: #f66151;
+    color: rgba(17, 17, 17, 1.00);
+}
+
+/* ── Mode (resize etc.) ──────────────────────────────────────────────── */
+#mode {
+    background-color: rgba(17, 17, 17, 1.00);
+    color: #dc8add;   /* salient */
+}
+
+
+/* ── Clock / battery ─────────────────────────────────────────────────── */
+#clock {
+    color: #696262;
+}
+
+#battery {
+    margin-right: 10px;
+    color: #696262;
+}
+
+#battery.charging {
+    color: #696262;
+}
+
+#battery.warning {
+    color: #f66151;
+}
+
+#battery.critical {
+    color: #f66151;
+}
+
+/* ── Quieter secondary modules ───────────────────────────────────────── */
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#idle_inhibitor,
+#language,
+#bluetooth,
+#scratchpad,
+#battery,
+#tray {
+    padding: 0px 2px; 
+    color: #696262;
+}
+
+#pulseaudio.muted {
+    color: #3a3a3a;
+}
+
+#network.disconnected,
+#network.disabled {
+    color: #3a3a3a;
+}
+
+#temperature.critical {
+    color: #d84e65;
+}
+
+#idle_inhibitor.activated {
+    color: #f66151;
+}
+
+#bluetooth.disconnected,
+#bluetooth.off {
+    color: #3a3a3a;
+}
+
+#tray menu {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #3a3a3a;
+    background-color:#f7f3ee;
+   
+}
+
+#tray menuitem:hover {
+    background-color: #f7f3ee;
+}
+
+#tray {
+    border-style: solid;
+    margin-left: 15px;
+}
+
+#tray > *{
+    opacity: 0.3;
+}
+
+#tray > *:hover {
+    opacity: 0.6;
+}
+
+
+#tray > .passive {
+    opacity: 0.2;
+}
+
+#tray > .needs-attention {
+    background-color: #d84e65;
+}
+
+#backlight {
+    padding-left: 0px;   
+}
