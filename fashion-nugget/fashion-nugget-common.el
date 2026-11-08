@@ -33,7 +33,7 @@ back to its pastel, which is right for a dark palette."
    `(rust-string-interpolation ((t (:foreground ,fg))))
    `(font-lock-keyword-face ((t (:foreground ,fg-dim :background ,purple))))
    `(font-lock-builtin-face ((t (:foreground ,fg))))
-   `(font-lock-function-name-face ((t (:foreground ,fg :slant italic))))
+   `(font-lock-function-name-face ((t (:foreground ,fg :weight bold))))
    `(rust-ampersand-face ((t (:foreground ,fg-dim :background ,accent-alt))))
    `(rust-unsafe ((t (:foreground ,fg-dim :background ,special))))
    `(rust-question-mark ((t (:foreground ,fg-dim :background ,accent-alt))))
@@ -49,6 +49,7 @@ back to its pastel, which is right for a dark palette."
    `(font-lock-operator-face ((t (:foreground ,fg-dim :background ,purple))))
    `(font-lock-punctuation-face ((t (:foreground ,fg-dim :background ,purple))))
    `(font-lock-preprocessor-face ((t (:foreground ,fg-dim :background ,accent-alt))))
+   `(racket-keyword-argument-face ((t (:foreground ,fg-dim :background ,accent-alt))))
    `(button ((t (:foreground ,fg-dim :background ,accent))))
 
    ;; Mode line

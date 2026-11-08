@@ -1,10 +1,9 @@
-# fashion-nugget (light) — matches the Emacs theme palette
-
 [window]
+opacity = 1
 dynamic_padding = true
 
 [window.padding]
-x = 15
+x = 10
 y = 10
 
 [font]
@@ -12,68 +11,44 @@ size = 12
 
 [font.normal]
 family = "lilex"
+#family = "lilex"
 style = "normal"
 
 [font.offset]
-y = 0
+y=0
 
 [colors.primary]
-background = '#f1ebe4'   # bg
-foreground = '#434343'   # fg-dim (Emacs default face)
+background = '#f1ebe4'
+foreground = '#555555'
 
 [colors.cursor]
-text   = '#f7f3ee'       # fg-dim
-cursor = '#6671b8'       # special
+text   = '#f1ebe4'
+cursor = '#6671b8'
 
 [cursor]
 #style = { shape = "Beam", blinking = "On" }
 #thickness  = 0.2
 
 [colors.selection]
-text       = '#f1ebe4'   # bg   (Emacs region)
-background = '#2a2a2a'   # fg
+text       = '#f1ebe4'
+background = '#555555'
 
-# isearch: fg on accent
-[colors.search.focused_match]
-foreground = '#2a2a2a'
-background = '#ffe7f7'
-
-# lazy-highlight: fg on bg-raised
-[colors.search.matches]
-foreground = '#2a2a2a'
-background = '#85b692'
-
-# mode-line: fg-dim on bg-soft
-[colors.footer_bar]
-foreground = '#434343'
-background = '#eceae8'
-
-# avy-lead-face / avy-lead-face-0
-[colors.hints.start]
-foreground = '#ceebd5'
-background = '#434343'
-
-[colors.hints.end]
-foreground = '#e3e8ff'
-background = '#434343'
-
-# Slot mapping mirrors your Emacs ansi-color faces
 [colors.normal]
-black   = '#f1ebe4'      # bg
-red     = '#a45f91'      # accent ink
-green   = '#6671b8'      # purple ink
-yellow  = '#378553'      # special ink
-blue    = '#2a2a2a'      # fg
-magenta = '#ab6535'      # accent-alt ink
-cyan    = '#2a2a2a'      # fg
-white   = '#2a2a2a'      # fg
+black   = '#f1ebe4'
+red     = '#f666aa'
+green   = '#dc8add'
+yellow  = '#53997b'
+blue    = '#555555'
+magenta = '#f666aa'
+cyan    = '#555555'
+white   = '#555555'
 
 [colors.bright]
-black   = '#85b692'      # bg-raised (your comment color = "dim" role)
-red     = '#a45f91'
-green   = '#6671b8'
-yellow  = '#378553'
-blue    = '#434343'      # fg-dim
-magenta = '#ab6535'
-cyan    = '#2a2a2a'
-white   = '#2a2a2a'
+black   = '#696262'
+red     = '#f66151'
+green   = '#dc8add'
+yellow  = '#53997b'
+blue    = '#252121'
+magenta = '#f666aa'
+cyan    = '#dababa'
+white   = '#dababa'
